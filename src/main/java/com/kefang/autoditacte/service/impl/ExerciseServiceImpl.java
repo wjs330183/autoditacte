@@ -211,5 +211,22 @@ public class ExerciseServiceImpl implements ExerciseService {
         return JsonData.success(pages, "查询成功");
 
     }
+    public JsonData getExerciseByExerciseCourseId(String id, TailPage<Exercise> pages) {
+        Integer page = pages.getPageNum();
+        Integer length = pages.getPageSize();
+        List<Exercise> exerciseList = null;
+        try {
+            Integer start = (page - 1) * length;
+            exerciseList = exerciseDao.getExerciseByExerciseCourseId(id, start, length);
+            int count = exerciseDao.getExerciseCountByExerciseCourseId(id);
+            pages.setItemsTotalCount(count);
+            pages.setItems(exerciseList);
+        } catch (Exception e) {
+            logger.error("getExercise error:{}", e.getMessage());
+            return JsonData.fail("查询失败");
+        }
+        return JsonData.success(pages, "查询成功");
+
+    }
 
 }

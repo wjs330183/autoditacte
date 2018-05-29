@@ -36,14 +36,8 @@ public class StudentEvaluateController {
     }
     @RequestMapping(value = {"/studentManager/1/studentEvaluates"},method = RequestMethod.GET)
     @ResponseBody
-    public  JsonData getStudentEvaluatesByName(@RequestParam(value = "year", required = false) String year,
-                                               @RequestParam(value = "stage", required = false)String stage,
-                                               @RequestParam(value = "courseId", required = false)String courseId,
-                                               @RequestParam(value = "site_id", required = false)String site_id,
-                                               @RequestParam(value = "status", required = false)String status,
-                                               @RequestParam(value = "keyWord", required = false)String keyWord,
-                                               TailPage page) {
-        return studentEvaluateService.getStudentEvaluates(year, stage, courseId, site_id,status, keyWord, page);
+    public  JsonData getStudentEvaluatesByName(@RequestParam(value = "name", required = false) String name, TailPage<StudentEvaluate> pages) {
+        return studentEvaluateService.getStudentEvaluatesByPage(name, pages);
     }
 
 }

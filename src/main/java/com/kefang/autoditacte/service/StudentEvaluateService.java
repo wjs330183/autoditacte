@@ -53,7 +53,7 @@ public interface StudentEvaluateService {
     JsonData getStudentEvaluatesByPage(String name, TailPage<StudentEvaluate> page);
 
 
-    JsonData getStudentEvaluates(String year, String stage, String courseId,String site_id,String status, String keyWord, TailPage<StudentEvaluate> page);
+    JsonData getStudentEvaluates(String year, String stage, String courseName, String stationName, String status, String keyWord, TailPage<StudentEvaluate> page);
 
     List<StudentEvaluate> getAllEvaluates();
 

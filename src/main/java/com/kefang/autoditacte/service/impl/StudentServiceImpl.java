@@ -148,10 +148,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public JsonData getStudentsByPage(String name, TailPage page) {
         try {
-//            Integer totalItemsCount = studentDao.getTotalItemsCount(name);
-//            List<Student> studentList = studentDao.getStudentsByPage(name, page);
-//            page.setItemsTotalCount(totalItemsCount);
-//            page.setItems(studentList);
+            Integer totalItemsCount = studentDao.getTotalItemsCount(name);
+            List<Student> studentList = studentDao.getStudentsByPage(name, page);
+            page.setItemsTotalCount(totalItemsCount);
+            page.setItems(studentList);
 
         } catch (Exception e) {
             logger.error("getStudent error:{}", e.getMessage());

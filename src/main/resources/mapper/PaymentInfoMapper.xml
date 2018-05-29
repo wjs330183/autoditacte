@@ -142,10 +142,10 @@
     FROM t_payment_info
     WHERE sys_del=0
     <if test="courseId != null">
-      AND course_id=#{courseId}
+      AND course_id=#{courseId},
     </if>
     <if test="stationId != null">
-      AND station_id=#{stationId}
+      AND station_id=#{stationId},
     </if>
     <if test="status != null">
       AND status=#{status}
@@ -154,21 +154,21 @@
     LIMIT #{page.startIndex,jdbcType=INTEGER},#{page.pageSize,jdbcType=INTEGER}
   </select>
   <select id="getTotalItemsCount" resultType="java.lang.Integer">
-    select COUNT (*)
+    select COUNT(*)
     FROM t_payment_info
     WHERE sys_del=0
     <if test="courseId != null">
-      AND course_id=#{courseId}
+      AND course_id=#{courseId},
     </if>
     <if test="stationId != null">
-      AND station_id=#{stationId}
+      AND station_id=#{stationId},
     </if>
     <if test="status != null">
       AND status=#{status}
     </if>
   </select>
   <select id="getTotalItemsCountByStudentId" resultType="java.lang.Integer">
-    SELECT COUNT (*)
+    SELECT COUNT(*)
     FROM t_payment_info
     WHERE sys_del=0
     <if test="studentId != null">

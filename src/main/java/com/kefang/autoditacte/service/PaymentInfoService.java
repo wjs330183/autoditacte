@@ -7,5 +7,5 @@ import com.kefang.autoditacte.entity.PaymentInfo;
 import java.util.List;
 
 public interface PaymentInfoService {
-    TailPage<PaymentInfoDto> getPaymentInfoByPage(String courseId, String stationId, String s, String keyWord, TailPage page);
+    TailPage<PaymentInfoDto> getPaymentInfoByPage(String courseId, String stationId, Integer status, String keyWord, TailPage page);
 }

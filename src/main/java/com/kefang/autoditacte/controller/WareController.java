@@ -42,9 +42,9 @@ public class WareController {
 
     @RequestMapping(value = {"/resourceManagement/2/wareByName"}, method = RequestMethod.GET)
     @ResponseBody
-    public JsonData getWareByName(@RequestParam(value = "wareCourse", required = false) String wareCourse, TailPage<Ware> pages) {
+    public JsonData getWareByName(@RequestParam(value = "courseName", required = false) String courseName, TailPage<Ware> pages) {
 
-        return wareService.getWareByName(wareCourse, pages);
+        return wareService.getWareByName(courseName, pages);
     }
 
     @RequestMapping(value = {"/resourceManagement/2/wareById"}, method = RequestMethod.GET)

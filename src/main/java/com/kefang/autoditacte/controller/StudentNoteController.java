@@ -40,8 +40,8 @@ public class StudentNoteController {
 
     @RequestMapping(value = {"/studentManager/7/studentNotes"}, method = RequestMethod.GET)
     @ResponseBody
-    public JsonData getStudentNotesByName(@RequestParam(value = "courseId", required = false) String courseId, TailPage pages) {
-        return studentNoteService.getStudentNotesByPage(courseId, pages);
+    public JsonData getStudentNotesByName(@RequestParam(value = "name", required = false) String name, TailPage pages) {
+        return studentNoteService.getStudentNotesByPage(name, pages);
     }
 
 }
