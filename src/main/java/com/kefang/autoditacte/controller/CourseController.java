@@ -188,7 +188,7 @@ public class CourseController {
         } catch (ParamException e) {
             return JsonData.fail(e.getMessage());
         }
-        return  exerciseService.getExerciseById(exerciseCourseId,page);
+        return  exerciseService.getExerciseByExerciseCourseId(exerciseCourseId,page);
     }
 
 

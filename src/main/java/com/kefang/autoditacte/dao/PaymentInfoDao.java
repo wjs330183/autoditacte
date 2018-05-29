@@ -25,11 +25,11 @@ public interface PaymentInfoDao {
 
 
     int updateByPrimaryKey(PaymentInfo record);
-    //通过课程id，助学机构id查总数
+    //通过课程id，助学机构id查
     List<PaymentInfo> getPaymentInfoByPage(@Param("courseId") String courseId,@Param("stationId") String stationId,@Param("status") Integer status,@Param("page") TailPage page);
     //通过学生查总数
     List<PaymentInfo> getPeymentInfoByStudentId(@Param("studentId") String studentId,@Param("page") TailPage page);
-    //通过学生查总数
+    //通过学生查
     Integer getTotalItemsCountByStudentId(@Param("studentId") String studentId);
     //通过课程id，助学机构id查总数
     Integer getTotalItemsCount(@Param("courseId") String courseId,@Param("stationId") String stationId,@Param("status") Integer status);

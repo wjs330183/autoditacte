@@ -45,9 +45,17 @@ public class StationServiceImpl implements StationService {
         if (CommonUtils.isAnyEmpty(param.getName(), param.getCode())) {
             return JsonData.fail("param is empty");
         }
-        if (!stationDao.getByName(param.getName()).getId().equals(param.getId()) || !stationDao.getByCode(param.getCode()).getId().equals(param.getId())) {
-            return JsonData.fail("助学机构已存在");
+        if(stationDao.getByName(param.getName())!=null){
+            if(!stationDao.getByName(param.getName()).getId().equals(param.getId())){
+                return JsonData.fail("助学机构已存在");
+            }
         }
+        if(stationDao.getByCode(param.getCode())!=null){
+            if( !stationDao.getByCode(param.getCode()).getId().equals(param.getId())){
+                return JsonData.fail("助学机构已存在");
+            }
+        }
+
         Station station = Station.builder().id(param.getId()).name(param.getName()).code(param.getCode()).note(param.getNote())
                 .status(param.getStatus()).build();
         Date date = new Date();

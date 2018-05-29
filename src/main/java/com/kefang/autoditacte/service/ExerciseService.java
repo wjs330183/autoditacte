@@ -58,7 +58,7 @@ public interface ExerciseService {
 	 * @param status 状态:radio
 
 	 * @param operator 操作者编号
-	 */
+	 *///
 	JsonData updateExercise(ExerciseParam param);
 
 
@@ -71,5 +71,7 @@ public interface ExerciseService {
 	 * 通过id查询习题
 	 */
 	JsonData getExerciseById(String id, TailPage<Exercise> pages);
+
+	JsonData getExerciseByExerciseCourseId(String id, TailPage<Exercise> pages);
 
 }

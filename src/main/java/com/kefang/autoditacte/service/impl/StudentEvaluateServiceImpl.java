@@ -8,9 +8,7 @@ import com.kefang.autoditacte.dto.StudentEvaluateDto;
 import com.kefang.autoditacte.entity.Course;
 import com.kefang.autoditacte.entity.Station;
 import com.kefang.autoditacte.entity.Student;
-import com.kefang.autoditacte.entity.sysmanage.Time;
 import com.kefang.autoditacte.service.StudentService;
-import com.kefang.autoditacte.service.sysmanage.TimeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -54,9 +52,6 @@ public class StudentEvaluateServiceImpl implements StudentEvaluateService {
 
     @Resource
     private StationDao stationDao;
-
-    @Resource
-    private TimeService timeService;
 
     /**
      * 单个保存
@@ -153,75 +148,68 @@ public class StudentEvaluateServiceImpl implements StudentEvaluateService {
     }
 
     @Override
-    public JsonData getStudentEvaluates(String year, String stage, String courseId, String siteId, String status, String keyWord, TailPage page) {
+    public JsonData getStudentEvaluates(String year, String stage, String courseName, String stationName, String status, String keyWord, TailPage<StudentEvaluate> page) {
         try {
-            Integer totalItemsCount = studentDao.getTotalItemsCount(keyWord, courseId, siteId);
-            List<Student> studentsByPage = studentDao.getStudentsByPage(keyWord, courseId, siteId, page);
-            List<StudentEvaluateDto> studentDtoList = new ArrayList<>();
-            List<StudentEvaluateDto> studentDtos = new ArrayList<>();
-            String startTime = null;
-            String endTime = null;
-            if (year != null) {
-                Time time = timeService.query(Integer.parseInt(year));
-                if (stage == "0") {
-                    startTime = time.getFirstStartTime();
-                    endTime = time.getFistEndTime();
-                } else if (stage == "1") {
-                    startTime = time.getSecondStartTime();
-                    endTime = time.getSecondEndTime();
-                } else {
-                    startTime = time.getFirstStartTime();
-                    endTime = time.getSecondEndTime();
-                }
-            }
-            for (Student student : studentsByPage) {
+            List<StudentEvaluate> studentEvaluateList = new ArrayList<>();
+            List<StudentEvaluateDto> studentEvaluateDtos = new ArrayList<>();
+            List<StudentEvaluateDto> studentEvaluateDtoList = new ArrayList<>();
+            for (StudentEvaluate studentEvaluate : studentEvaluateList) {
                 StudentEvaluateDto studentEvaluateDto = new StudentEvaluateDto();
-                if (student == null) {
-                    continue;
-                }
-                String id = student.getId();
-                StudentEvaluate studentEvaluate = studentEvaluateDao.getByStudentId(id, status);
-                Course course = null;
-                if (studentEvaluate != null) {
-                    course = courseDao.getById(studentEvaluate.getCourseId());
-                }
+                Student student = studentDao.getStudentById(studentEvaluate.getStudentId());
+                Course course = courseDao.getById(studentEvaluate.getCourseId());
                 Station station = stationDao.getById(student.getStationId());
-                if (station != null) {
-                    studentEvaluateDto.setStationName(station.getName());
-                }
-                if (course != null) {
-                    studentEvaluateDto.setCourseName(course.getName());
-                }
-                if (studentEvaluate != null) {
-                    studentEvaluateDto.setName(student.getName());
-                    studentEvaluateDto.setCode(student.getCode());
-                    studentEvaluateDto.setCardType(student.getCardType());
-                    studentEvaluateDto.setCardId(student.getCardId());
-                    studentEvaluateDto.adapt(studentEvaluate);
-                }
-                studentDtoList.add(studentEvaluateDto);
+                studentEvaluateDto.setCourseName(course.getName());
+                studentEvaluateDto.setCardId(student.getCardId());
+                studentEvaluateDto.setCardType(student.getCardType());
+                studentEvaluateDto.setCode(student.getCode());
+                studentEvaluateDto.setName(student.getName());
+                studentEvaluateDto.setStationName(station.getName());
+                studentEvaluateDto.adapt(studentEvaluate);
+                studentEvaluateDtos.add(studentEvaluateDto);
             }
-            if (year == null) {
-                page.setItems(studentDtoList);
-            } else {
-                for (StudentEvaluateDto studentEvaluateDto : studentDtoList) {
-                    Date applyTime = studentEvaluateDto.getApplyTime();
+            for (StudentEvaluateDto studentEvaluateDto : studentEvaluateDtos) {
+                int count = 0;
+                if (year != null) {
+                    Date createTime = studentEvaluateDto.getCreateTime();
+                    String startYear = year + "-01-01 00:00:00";
+                    String endYear = year + "-12-31 23:59:59";
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Long start = sdf.parse(startTime).getTime() / 1000;
-                    Long end = sdf.parse(endTime).getTime() / 1000;
-                    Long apply = applyTime.getTime();
-                    if (apply <= end && apply >= start) {
-                        studentDtos.add(studentEvaluateDto);
+                    Date startDate = sdf.parse(startYear);
+                    Date endDate = sdf.parse(endYear);
+                    if (createTime.before(endDate) && createTime.after(startDate)) {
+                        studentEvaluateDtoList.add(studentEvaluateDto);
                     }
                 }
-                page.setItems(studentDtos);
+
+                if (stage != null) {
+
+                } else {
+                    count = count + 1;
+                }
+                if (courseName != null) {
+                    if (courseName == studentEvaluateDto.getCourseName()) {
+                        count = count + 1;
+                    }
+                } else {
+                    count = count + 1;
+                }
+                if (stationName != null) {
+                    if (stationName == studentEvaluateDto.getStationName()) {
+                        count = count + 1;
+                    }
+                } else {
+                    count = count + 1;
+                }
+
+
             }
-            page.setItemsTotalCount(totalItemsCount);
+
+
         } catch (Exception e) {
             logger.error("getStudentEvaluate error:{}", e.getMessage());
             return JsonData.fail("查询失败");
         }
-        return JsonData.success(page, "查询成功");
+        return null;
     }
 
 
@@ -230,59 +218,4 @@ public class StudentEvaluateServiceImpl implements StudentEvaluateService {
         return studentEvaluateDao.getAllEvaluates();
     }
 
-    /**
-     * List<StudentEvaluate> studentEvaluateList = new ArrayList<>();
-     *             List<StudentEvaluateDto> studentEvaluateDtos = new ArrayList<>();
-     *             List<StudentEvaluateDto> studentEvaluateDtoList = new ArrayList<>();
-     *             for (StudentEvaluate studentEvaluate : studentEvaluateList) {
-     *                 StudentEvaluateDto studentEvaluateDto = new StudentEvaluateDto();
-     *                 Student student = studentDao.getStudentById(studentEvaluate.getStudentId());
-     *                 Course course = courseDao.getById(studentEvaluate.getCourseId());
-     *                 Station station = stationDao.getById(student.getStationId());
-     *                 studentEvaluateDto.setCourseName(course.getName());
-     *                 studentEvaluateDto.setCardId(student.getCardId());
-     *                 studentEvaluateDto.setCardType(student.getCardType());
-     *                 studentEvaluateDto.setCode(student.getCode());
-     *                 studentEvaluateDto.setName(student.getName());
-     *                 studentEvaluateDto.setStationName(station.getName());
-     *                 studentEvaluateDto.adapt(studentEvaluate);
-     *                 studentEvaluateDtos.add(studentEvaluateDto);
-     *             }
-     *             for (StudentEvaluateDto studentEvaluateDto : studentEvaluateDtos) {
-     *                 int count = 0;
-     *                 if (year != null) {
-     *                     Date createTime = studentEvaluateDto.getCreateTime();
-     *                     String startYear = year + "-01-01 00:00:00";
-     *                     String endYear = year + "-12-31 23:59:59";
-     *                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-     *                     Date startDate = sdf.parse(startYear);
-     *                     Date endDate = sdf.parse(endYear);
-     *                     if (createTime.before(endDate) && createTime.after(startDate)) {
-     *                         studentEvaluateDtoList.add(studentEvaluateDto);
-     *                     }
-     *                 }
-     *
-     *                 if (stage != null) {
-     *
-     *                 } else {
-     *                     count = count + 1;
-     *                 }
-     *                 if (courseName != null) {
-     *                     if (courseName == studentEvaluateDto.getCourseName()) {
-     *                         count = count + 1;
-     *                     }
-     *                 } else {
-     *                     count = count + 1;
-     *                 }
-     *                 if (stationName != null) {
-     *                     if (stationName == studentEvaluateDto.getStationName()) {
-     *                         count = count + 1;
-     *                     }
-     *                 } else {
-     *                     count = count + 1;
-     *                 }
-     *
-     *
-     *             }
-     */
 }

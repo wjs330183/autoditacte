@@ -159,15 +159,4 @@
         <include refid="tableName"/>
     </select>
 
-    <select id="getByStudentId" resultMap="resultMap">
-        SELECT
-        <include refid="columns"/>
-        FROM
-        <include refid="tableName"/>
-        where student_id=#{studentId}
-        <if test="status != null">
-            AND apply_status=status
-        </if>
-    </select>
-
 </mapper>

@@ -151,10 +151,9 @@
         create_time = #{entity.createTime,jdbcType=TIMESTAMP},
         update_time = #{entity.updateTime,jdbcType=TIMESTAMP},
         note = #{entity.note,jdbcType=VARCHAR},
-        status = #{entity.status,jdbcType=INTEGER}
-        price = #{entity.price,jdbcType=DOUBLE}
+        status = #{entity.status,jdbcType=INTEGER},
+        price = #{entity.price,jdbcType=DOUBLE},
         sold_price=#{entity.soldPrice,jdbcType=DOUBLE}
-
         where id=#{entity.id} AND sys_del=0
     </update>
 

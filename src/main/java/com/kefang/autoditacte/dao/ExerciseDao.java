@@ -36,4 +36,9 @@ public interface ExerciseDao {
 
     int getExerciseCountById(@Param("id") String id);
 
+    List getExerciseByExerciseCourseId(@Param("id") String id,
+                         @Param("start") Integer start, @Param("length") Integer length);
+
+    int getExerciseCountByExerciseCourseId(@Param("id") String id);
+
 }

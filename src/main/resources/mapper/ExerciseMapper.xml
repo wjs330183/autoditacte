@@ -208,5 +208,25 @@
         WHERE 1=1
             and course_id = #{id}
     </select>
+    <select id="getExerciseCountByExerciseCourseId" resultType="java.lang.Integer">
+        select
+        count(*)
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        and exercise_course = #{id}
+    </select>
+    <select id="getExerciseByExerciseCourseId" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        and exercise_course = #{id}
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
 
 </mapper>

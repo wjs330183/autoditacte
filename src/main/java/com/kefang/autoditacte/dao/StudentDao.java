@@ -28,11 +28,11 @@ public interface StudentDao {
 
     int deleteById(@Param("id") String id);
 
-    List<Student> getStudentsByPage(@Param("courseId") String courseId, @Param("siteId") String siteId, @Param("keyWord") String keyWord, @Param("page") TailPage page);
+    List<Student> getStudentsByPage(@Param("name") String name, @Param("page") TailPage<Student> page);
 
     List<Student> getStudents(@Param("stationId") String stationId, @Param("status") String status, @Param("keyWord") String keyWord, @Param("page") TailPage<Student> page);
 
-    Integer getTotalItemsCount(@Param("keyWord") String keyWord, @Param("courseId") String courseId, @Param("siteId") String siteId);
+    Integer getTotalItemsCount(@Param("name") String name);
 
     Integer getTotalItemsCounts(@Param("stationId") String stationId, @Param("status") String status, @Param("keyWord") String keyWord);
 

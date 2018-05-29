@@ -216,15 +216,8 @@
         FROM
         <include refid="tableName"/>
         WHERE 1=1
-        <if test="keyWord != null">
-            AND name=#{keyWord}
-            OR code=#{keyWord}
-        </if>
-        <if test="courseId != null">
-            AND course_id=#{courseId}
-        </if>
-        <if test="siteId != null">
-            AND site_id=#{siteId}
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
         </if>
     </select>
 
@@ -241,15 +234,8 @@
         FROM
         <include refid="tableName"/>
         WHERE 1=1
-        <if test="keyWord != null">
-            AND name=#{keyWord}
-            OR code=#{keyWord}
-        </if>
-        <if test="courseId != null">
-            AND course_id=#{courseId}
-        </if>
-        <if test="siteId != null">
-            AND site_id=#{siteId}
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
         </if>
         ORDER BY create_time desc
         LIMIT #{page.startIndex},#{page.pageSize}

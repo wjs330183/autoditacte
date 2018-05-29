@@ -32,7 +32,7 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
     @Resource
     private CourseDao courseDao;
     @Override
-    public TailPage<PaymentInfoDto> getPaymentInfoByPage(@RequestParam(value = "courseId",required = false) String courseId, @RequestParam(value = "stationId",required = false)String stationId, @RequestParam(value = "status",required = false)String status, @Param("keyWord") String keyWord, TailPage page) {
+    public TailPage<PaymentInfoDto> getPaymentInfoByPage(@RequestParam(value = "courseId",required = false) String courseId, @RequestParam(value = "stationId",required = false)String stationId, @RequestParam(value = "status",required = false)Integer status, @Param("keyWord") String keyWord, TailPage page) {
        if(keyWord!=null) {
            TailPage tailPage = (TailPage) studentDao.getStudents(null, null, keyWord, page);
            List<Student> studentList = page.getItems();
@@ -53,10 +53,8 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
                return page;
            }
        }
-       //把状态转换成int
-       Integer status1=Integer.parseInt(status);
-       Integer count=paymentInfoDao.getTotalItemsCount(courseId,stationId,status1);
-       List<PaymentInfo> paymentInfoList=paymentInfoDao.getPaymentInfoByPage(courseId,stationId,status1,page);
+       Integer count=paymentInfoDao.getTotalItemsCount(courseId,stationId,status);
+       List<PaymentInfo> paymentInfoList=paymentInfoDao.getPaymentInfoByPage(courseId,stationId,status,page);
        page.setItemsTotalCount(count);
        List<PaymentInfoDto> paymentInfoDtoList=new ArrayList<>();
        for(PaymentInfo paymentInfo:paymentInfoList){
