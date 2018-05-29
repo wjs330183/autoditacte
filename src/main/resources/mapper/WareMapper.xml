@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.WareDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.Ware">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="wareCourseId" column="ware_course_id" jdbcType="VARCHAR"/>
+        <result property="wareName" column="ware_name" jdbcType="VARCHAR"/>
+        <result property="wareId" column="ware_id" jdbcType="VARCHAR"/>
+        <result property="wareCourse" column="ware_course" jdbcType="VARCHAR"/>
+        <result property="teacherName" column="teacher_name" jdbcType="VARCHAR"/>
+        <result property="playUrl" column="play_url" jdbcType="VARCHAR"/>
+        <result property="imgUrl" column="img_url" jdbcType="VARCHAR"/>
+        <result property="playCount" column="play_count" jdbcType="VARCHAR"/>
+        <result property="time" column="time" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tableName">t_ware</sql>
+    <sql id="columns">
+        id,
+        ware_course_id,
+        ware_name,
+        ware_id,
+        ware_course,
+        teacher_name,
+        play_url,
+        img_url,
+        play_count,
+        time,
+        create_time,
+        update_time,
+        remark,
+        status
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.wareCourseId != null">
+                ware_course_id,
+            </if>
+            <if test="entity.wareName != null">
+                ware_name,
+            </if>
+            <if test="entity.wareId != null">
+                ware_id,
+            </if>
+            <if test="entity.wareCourse != null">
+                ware_course,
+            </if>
+            <if test="entity.teacherName != null">
+                teacher_name,
+            </if>
+            <if test="entity.playUrl != null">
+                play_url,
+            </if>
+            <if test="entity.imgUrl != null">
+                img_url,
+            </if>
+            <if test="entity.playCount != null">
+                play_count,
+            </if>
+            <if test="entity.time != null">
+                time,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+            <if test="entity.updateTime != null">
+                update_time,
+            </if>
+            <if test="entity.remark != null">
+                remark,
+            </if>
+            <if test="entity.status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id},
+            </if>
+            <if test="entity.wareCourseId != null">
+                #{entity.wareCourseId},
+            </if>
+            <if test="entity.wareName != null">
+                #{entity.wareName},
+            </if>
+            <if test="entity.wareId != null">
+                #{entity.wareId},
+            </if>
+            <if test="entity.wareCourse != null">
+                #{entity.wareCourse},
+            </if>
+            <if test="entity.teacherName != null">
+                #{entity.teacherName},
+            </if>
+            <if test="entity.playUrl != null">
+                #{entity.playUrl},
+            </if>
+            <if test="entity.imgUrl != null">
+                #{entity.imgUrl},
+            </if>
+            <if test="entity.playCount != null">
+                #{entity.playCount},
+            </if>
+            <if test="entity.time != null">
+                #{entity.time},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime},
+            </if>
+            <if test="entity.updateTime != null">
+                #{entity.updateTime},
+            </if>
+            <if test="entity.remark != null">
+                #{entity.remark},
+            </if>
+            <if test="entity.status != null">
+                #{entity.status},
+            </if>
+        </trim>
+    </insert>
+
+    <!--&lt;!&ndash; mutipule entity save &ndash;&gt;-->
+    <!--<insert id="insertBatch">-->
+    <!--insert into-->
+    <!--<include refid="tableName"/>-->
+    <!--(<include refid="columns"/>) values-->
+    <!--<foreach collection="entities" open="(" close=")" item="entity" separator=",">-->
+    <!--(-->
+    <!--#{entity.id},-->
+    <!--#{entity.wareCourseId},-->
+    <!--#{entity.wareName},-->
+    <!--#{entity.wareId},-->
+    <!--#{entity.wareCourse},-->
+    <!--#{entity.teacherName},-->
+    <!--#{entity.playUrl},-->
+    <!--#{entity.imgUrl},-->
+    <!--#{entity.playCount},-->
+    <!--#{entity.time},-->
+    <!--#{entity.createTime},-->
+    <!--#{entity.updateTime},-->
+    <!--#{entity.remark},-->
+    <!--#{entity.status}-->
+    <!--)-->
+    <!--</foreach>-->
+    <!--</insert>-->
+
+    <!-- get entity by id -->
+    <select id="getById" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        where ware_course_id = #{id}
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.Ware">
+        update
+        <include refid="tableName"/>
+        set
+        ware_course_id = #{entity.wareCourseId},
+        ware_name = #{entity.wareName},
+        ware_id = #{entity.wareId},
+        ware_course = #{entity.wareCourse},
+        teacher_name = #{entity.teacherName},
+        play_url = #{entity.playUrl},
+        img_url = #{entity.imgUrl},
+        play_count = #{entity.playCount},
+        time = #{entity.time},
+        update_time = #{entity.updateTime},
+        remark = #{entity.remark},
+        status = #{entity.status}
+        where id=#{entity.id}
+    </update>
+
+
+    <select id="getWare" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+    </select>
+
+
+    <select id="getWareLimit" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseName != null">
+            and course_name LIKE CONCAT('%',#{courseName},'%')
+        </if>
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+
+    <select id="getWareLimitById" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="id != null">
+            and ware_course_id=#{id}
+        </if>
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+
+    <select id="getWareCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseName != null">
+            and ware_course LIKE CONCAT('%',#{courseName},'%')
+        </if>
+    </select>
+
+    <select id="getWareCountById" resultType="java.lang.Integer">
+        select
+        count(*)
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="id != null">
+            and ware_course_id=#{id}
+        </if>
+    </select>
+</mapper>

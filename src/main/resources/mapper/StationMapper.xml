@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.StationDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.Station">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tableName">t_station</sql>
+    <sql id="columns">
+        id,
+        code,
+        name,
+        create_time,
+        update_time,
+        note,
+        status
+    </sql>
+    <insert id="save" parameterType="com.kefang.autoditacte.entity.Station">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="code!=null" >
+                code,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+            <if test="note != null" >
+                note,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null" >
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="note != null" >
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.kefang.autoditacte.entity.Station">
+        update
+        <include refid="tableName"/>
+        set
+        code = #{code,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        note = #{note,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER}
+        where id=#{id,jdbcType=VARCHAR} and sys_del=0
+    </update>
+    <select id="getById" resultMap="resultMap" parameterType="java.lang.String">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        WHERE id=#{id} AND sys_del=0
+    </select>
+    <select id="getByName" resultMap="resultMap" parameterType="java.lang.String">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        WHERE name=#{name} AND sys_del=0
+    </select>
+    <select id="getByCode"  parameterType="java.lang.String" resultMap="resultMap">
+        SELECT <include refid="columns"/>
+        FROM <include refid="tableName"/>
+        WHERE code=#{code} AND sys_del=0
+    </select>
+    <update id="deleteById" parameterType="string">
+        UPDATE
+        <include refid="tableName"/>
+        SET sys_del=1
+        WHERE id=#{id} AND sys_del=0
+    </update>
+    <select id="getTotalItemsCount" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM <include refid="tableName"/>
+        WHERE sys_del=0
+        <if test="stationName != null">
+            AND name LIKE CONCAT('%','${stationName}','%' )
+        </if>
+    </select>
+    <select id="getStationsByPage" resultMap="resultMap">
+        SELECT <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE sys_del=0
+        <if test="stationName != null">
+            AND name LIKE CONCAT('%','${stationName}','%')
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex,jdbcType=INTEGER},#{page.pageSize,jdbcType=INTEGER}
+    </select>
+
+</mapper>

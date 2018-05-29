@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.ExerciseTypeDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.ExerciseType">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="exerciseName" column="exercise_name" jdbcType="VARCHAR"/>
+        <result property="exerciseKind" column="exercise_kind" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tableName">t_exercise_type</sql>
+    <sql id="columns">
+        id,
+        exercise_name,
+        exercise_kind,
+        create_time,
+        update_time,
+        remark,
+        status
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.exerciseName != null">
+                exercise_name,
+            </if>
+            <if test="entity.exerciseKind != null">
+                exercise_kind,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+            <if test="entity.updateTime != null">
+                update_time,
+            </if>
+            <if test="entity.remark != null">
+                remark,
+            </if>
+            <if test="entity.status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id},
+            </if>
+            <if test="entity.exerciseName != null">
+                #{entity.exerciseName},
+            </if>
+            <if test="entity.exerciseKind != null">
+                #{entity.exerciseKind},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime},
+            </if>
+            <if test="entity.updateTime != null">
+                #{entity.updateTime},
+            </if>
+            <if test="entity.remark != null">
+                #{entity.remark},
+            </if>
+            <if test="entity.status != null">
+                #{entity.status},
+            </if>
+        </trim>
+    </insert>
+
+    <!--&lt;!&ndash; mutipule entity save &ndash;&gt;-->
+    <!--<insert id="insertBatch">-->
+    <!--insert into-->
+    <!--<include refid="tableName"/>-->
+    <!--(<include refid="columns"/>) values-->
+    <!--<foreach collection="entities" open="(" close=")" item="entity" separator=",">-->
+    <!--(-->
+    <!--#{entity.id},-->
+    <!--#{entity.exerciseName},-->
+    <!--#{entity.exerciseKind},-->
+    <!--#{entity.createTime},-->
+    <!--#{entity.updateTime},-->
+    <!--#{entity.remark},-->
+    <!--#{entity.status}-->
+    <!--)-->
+    <!--</foreach>-->
+    <!--</insert>-->
+
+    <!-- get entity by id -->
+    <select id="getById" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        where id = #{id}
+        and status=0
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.ExerciseType">
+        update
+        <include refid="tableName"/>
+        set
+        exercise_name = #{entity.exerciseName},
+        exercise_kind = #{entity.exerciseKind},
+        update_time = #{entity.updateTime},
+        remark = #{entity.remark},
+        status = #{entity.status}
+        where id=#{entity.id}
+    </update>
+
+
+    <select id="getExerciseType" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+
+</mapper>

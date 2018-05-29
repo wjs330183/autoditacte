@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.StudentEvaluateReportDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.StudentEvaluateReport">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
+        <result property="courseId" column="course_id" jdbcType="VARCHAR"/>
+        <result property="commonScore" column="common_score" jdbcType="FLOAT"/>
+        <result property="loginTimes" column="login_times" jdbcType="INTEGER"/>
+        <result property="noteTimes" column="note_times" jdbcType="INTEGER"/>
+        <result property="workTimes" column="work_times" jdbcType="INTEGER"/>
+        <result property="examScore" column="exam_score" jdbcType="FLOAT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="tableName">t_student_evaluate_report</sql>
+    <sql id="columns">
+                    id,
+                    student_id,
+                    course_id,
+                    common_score,
+                    login_times,
+                    note_times,
+                    work_times,
+                    exam_score,
+                    create_time,
+                    update_time
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="entity.id != null" >
+                    id,
+                </if>
+                <if test="entity.studentId != null" >
+                    student_id,
+                </if>
+                <if test="entity.courseId != null" >
+                    course_id,
+                </if>
+                <if test="entity.commonScore != null" >
+                    common_score,
+                </if>
+                <if test="entity.loginTimes != null" >
+                    login_times,
+                </if>
+                <if test="entity.noteTimes != null" >
+                    note_times,
+                </if>
+                <if test="entity.workTimes != null" >
+                    work_times,
+                </if>
+                <if test="entity.examScore != null" >
+                    exam_score,
+                </if>
+                <if test="entity.createTime != null" >
+                    create_time,
+                </if>
+             <if test="entity.updateTime != null" >
+                update_time,
+             </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="entity.id != null" >
+                    #{entity.id},
+                </if>
+                <if test="entity.studentId != null" >
+                    #{entity.studentId},
+                </if>
+                <if test="entity.courseId != null" >
+                    #{entity.courseId},
+                </if>
+                <if test="entity.commonScore != null" >
+                    #{entity.commonScore},
+                </if>
+                <if test="entity.loginTimes != null" >
+                    #{entity.loginTimes},
+                </if>
+                <if test="entity.noteTimes != null" >
+                    #{entity.noteTimes},
+                </if>
+                <if test="entity.workTimes != null" >
+                    #{entity.workTimes},
+                </if>
+                <if test="entity.examScore != null" >
+                    #{entity.examScore},
+                </if>
+                <if test="entity.createTime != null" >
+                    #{entity.createTime},
+                </if>
+             <if test="entity.updateTime != null" >
+                 #{entity.updateTime},
+             </if>
+        </trim>
+    </insert>
+
+    <!-- mutipule entity save -->
+    <insert id="insertBatch">
+        insert into
+        <include refid="tableName"/>
+        (<include refid="columns"/>) values
+        <foreach collection="entities" item="entity" separator=",">
+        (
+            #{entity.id},
+            #{entity.studentId},
+            #{entity.courseId},
+            #{entity.commonScore},
+            #{entity.loginTimes},
+            #{entity.noteTimes},
+            #{entity.workTimes},
+            #{entity.examScore},
+            #{entity.createTime},
+            #{entity.updateTime}
+        )
+        </foreach>
+    </insert>
+
+<!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.StudentEvaluateReport">
+        update
+        <include refid="tableName"/>
+        set
+            student_id = #{entity.studentId},
+            course_id = #{entity.courseId},
+            common_score = #{entity.commonScore},
+            login_times = #{entity.loginTimes},
+            note_times = #{entity.noteTimes},
+            work_times = #{entity.workTimes},
+            exam_score = #{entity.examScore},
+            create_time = #{entity.createTime},
+            update_time = #{entity.updateTime}
+        where id=#{entity.id}
+    </update>
+
+
+
+    <select id="getTotalItemsCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <select id="getStudentEvaluateReportsByPage" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex},#{page.pageSize}
+    </select>
+</mapper>

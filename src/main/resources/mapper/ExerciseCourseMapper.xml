@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.ExerciseCourseDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.ExerciseCourse">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="courseName" column="course_name" jdbcType="VARCHAR"/>
+        <result property="courseCode" column="course_code" jdbcType="VARCHAR"/>
+        <result property="exerciseNumber" column="exercise_number" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="tableName">t_exercise_course</sql>
+    <sql id="columns">
+        id,
+        course_name,
+        course_code,
+        exercise_number,
+        status,
+        create_time,
+        update_time,
+        remark
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.courseName != null">
+                course_name,
+            </if>
+            <if test="entity.courseCode != null">
+                course_code,
+            </if>
+            <if test="entity.exerciseNumber != null">
+                exercise_number,
+            </if>
+            <if test="entity.status != null">
+                status,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+            <if test="entity.updateTime != null">
+                update_time,
+            </if>
+            <if test="entity.remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id},
+            </if>
+            <if test="entity.courseName != null">
+                #{entity.courseName},
+            </if>
+            <if test="entity.courseCode != null">
+                #{entity.courseCode},
+            </if>
+            <if test="entity.exerciseNumber != null">
+                #{entity.exerciseNumber},
+            </if>
+            <if test="entity.status != null">
+                #{entity.status},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime},
+            </if>
+            <if test="entity.updateTime != null">
+                #{entity.updateTime},
+            </if>
+            <if test="entity.remark != null">
+                #{entity.remark},
+            </if>
+        </trim>
+    </insert>
+
+    <!--&lt;!&ndash; mutipule entity save &ndash;&gt;-->
+    <!--<insert id="insertBatch">-->
+    <!--insert into-->
+    <!--<include refid="tableName"/>-->
+    <!--(<include refid="columns"/>) values-->
+    <!--<foreach collection="entities" open="(" close=")" item="entity" separator=",">-->
+    <!--(-->
+    <!--#{entity.id},-->
+    <!--#{entity.courseName},-->
+    <!--#{entity.courseCode},-->
+    <!--#{entity.exerciseNumber},-->
+    <!--#{entity.status},-->
+    <!--#{entity.createTime},-->
+    <!--#{entity.updateTime},-->
+    <!--#{entity.remark}-->
+    <!--)-->
+    <!--</foreach>-->
+    <!--</insert>-->
+
+    <!-- get entity by id -->
+    <select id="getById" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        where id = #{id}
+        and status=0
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.ExerciseCourse">
+        update
+        <include refid="tableName"/>
+        set
+        course_name = #{entity.courseName},
+        course_code = #{entity.courseCode},
+        exercise_number = #{entity.exerciseNumber},
+        status = #{entity.status},
+        update_time = #{entity.updateTime},
+        remark = #{entity.remark}
+        where id=#{entity.id}
+    </update>
+
+
+    <select id="getExerciseCourse" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+    </select>
+
+    <select id="getExerciseCourseLimit" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseName != null">
+            and course_name LIKE CONCAT('%',#{courseName},'%')
+        </if>
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+
+    <select id="getExerciseCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseName != null">
+            and course_name=#{courseName}
+        </if>
+    </select>
+</mapper>

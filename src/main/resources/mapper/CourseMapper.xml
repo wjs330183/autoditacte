@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.CourseDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.Course">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="price" column="price" javaType="DOUBLE"/>
+        <result property="soldPrice" column="sold_price" javaType="DOUBLE"/>
+    </resultMap>
+
+    <sql id="tableName">t_course</sql>
+    <sql id="columns">
+        id,
+        name,
+        code,
+        create_time,
+        update_time,
+        note,
+        status,
+        price,
+        sold_price
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save" parameterType="com.kefang.autoditacte.entity.Course">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.name != null">
+                name,
+            </if>
+            <if test="entity.code != null">
+                code,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+            <if test="entity.updateTime != null">
+                update_time,
+            </if>
+            <if test="entity.note != null">
+                note,
+            </if>
+            <if test="entity.status != null">
+                status,
+            </if>
+            <if test="entity.price != null">
+                price,
+            </if>
+            <if test="entity.soldPrice != null">
+                sold_price
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.name != null">
+                #{entity.name,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.code != null">
+                #{entity.code,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="entity.updateTime != null">
+                #{entity.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="entity.note != null">
+                #{entity.note,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.status != null">
+                #{entity.status,jdbcType=INTEGER},
+            </if>
+            <if test="entity.price != null">
+                #{entity.price,jdbcType=DOUBLE},
+            </if>
+            <if test="entity.soldPrice != null">
+                #{entity.sold_price,jdbcType=DOUBLE}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- mutipule entity save-->
+    <insert id="insertBatch">
+        insert into
+        <include refid="tableName"/>
+        (<include refid="columns"/>) values
+        <foreach collection="entities"  item="entity" separator=",">
+            (#{entity.id},
+            #{entity.name},
+            #{entity.code},
+            #{entity.createTime},
+            #{entity.updateTime},
+            #{entity.note},
+            #{entity.status}
+            #{entity.price}
+            #{entity.soldPrice})
+        </foreach>
+    </insert>
+
+
+    <!-- get entity by id -->
+    <select id="getById" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        where id = #{id}
+        and sys_del=0
+    </select>
+    <select id="getByName" parameterType="java.lang.String" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE name=#{name}
+        AND sys_del=0
+    </select>
+
+    <update id="deleteById">
+        UPDATE
+        <include refid="tableName"/>
+        SET
+        sys_del=1
+
+        WHERE id=#{id}
+    </update>
+
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.Course">
+        update
+        <include refid="tableName"/>
+        set
+        name = #{entity.name,jdbcType=VARCHAR},
+        code = #{entity.code,jdbcType=VARCHAR},
+        create_time = #{entity.createTime,jdbcType=TIMESTAMP},
+        update_time = #{entity.updateTime,jdbcType=TIMESTAMP},
+        note = #{entity.note,jdbcType=VARCHAR},
+        status = #{entity.status,jdbcType=INTEGER}
+        price = #{entity.price,jdbcType=DOUBLE}
+        sold_price=#{entity.soldPrice,jdbcType=DOUBLE}
+
+        where id=#{entity.id} AND sys_del=0
+    </update>
+
+
+    <select id="getCourses" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        where
+        sys_del=0
+    </select>
+
+    <select id="getTotalItemsCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE sys_del=0
+        <if test="courseName != null">
+            AND name LIKE CONCAT('%',#{courseName},'%' )
+        </if>
+    </select>
+
+    <select id="getCoursesByPage" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE sys_del=0
+        <if test="courseName != null">
+            AND name LIKE CONCAT('%',#{courseName},'%' )
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex,jdbcType=INTEGER},#{page.pageSize,jdbcType=INTEGER}
+    </select>
+
+</mapper>

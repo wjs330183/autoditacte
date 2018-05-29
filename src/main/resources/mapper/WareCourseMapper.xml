@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.WareCourseDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.WareCourse">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="courseName" column="course_name" jdbcType="VARCHAR"/>
+        <result property="wareCode" column="ware_code" jdbcType="VARCHAR"/>
+        <result property="wareTeacher" column="ware_teacher" jdbcType="VARCHAR"/>
+        <result property="wareNumber" column="ware_number" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="wareRemark" column="ware_remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="tableName">t_ware_course</sql>
+    <sql id="columns">
+        id,
+        course_name,
+        ware_code,
+        ware_teacher,
+        ware_number,
+        status,
+        create_time,
+        update_time,
+        ware_remark
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.courseName != null">
+                course_name,
+            </if>
+            <if test="entity.wareCode != null">
+                ware_code,
+            </if>
+            <if test="entity.wareTeacher != null">
+                ware_teacher,
+            </if>
+            <if test="entity.wareNumber != null">
+                ware_number,
+            </if>
+            <if test="entity.status != null">
+                status,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+            <if test="entity.updateTime != null">
+                update_time,
+            </if>
+            <if test="entity.wareRemark != null">
+                ware_remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id},
+            </if>
+            <if test="entity.courseName != null">
+                #{entity.courseName},
+            </if>
+            <if test="entity.wareCode != null">
+                #{entity.wareCode},
+            </if>
+            <if test="entity.wareTeacher != null">
+                #{entity.wareTeacher},
+            </if>
+            <if test="entity.wareNumber != null">
+                #{entity.wareNumber},
+            </if>
+            <if test="entity.status != null">
+                #{entity.status},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime},
+            </if>
+            <if test="entity.updateTime != null">
+                #{entity.updateTime},
+            </if>
+            <if test="entity.wareRemark != null">
+                #{entity.wareRemark},
+            </if>
+        </trim>
+    </insert>
+
+    <!--&lt;!&ndash; mutipule entity save &ndash;&gt;-->
+    <!--<insert id="insertBatch">-->
+    <!--insert into-->
+    <!--<include refid="tableName"/>-->
+    <!--(<include refid="columns"/>) values-->
+    <!--<foreach collection="entities" open="(" close=")" item="entity" separator=",">-->
+    <!--(-->
+    <!--#{entity.id},-->
+    <!--#{entity.wareName},-->
+    <!--#{entity.wareCode},-->
+    <!--#{entity.wareTeacher},-->
+    <!--#{entity.wareNumber},-->
+    <!--#{entity.status},-->
+    <!--#{entity.createTime},-->
+    <!--#{entity.updateTime},-->
+    <!--#{entity.wareRemark}-->
+    <!--)-->
+    <!--</foreach>-->
+    <!--</insert>-->
+
+    <!-- get entity by id -->
+    <select id="getById" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.WareCourse">
+        update
+        <include refid="tableName"/>
+        set
+        course_name = #{entity.courseName},
+        ware_code = #{entity.wareCode},
+        ware_teacher = #{entity.wareTeacher},
+        ware_number = #{entity.wareNumber},
+        status = #{entity.status},
+        update_time = #{entity.updateTime},
+        ware_remark = #{entity.wareRemark}
+        where id=#{entity.id}
+    </update>
+
+
+    <select id="getWareCourse" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        ORDER BY update_time desc
+    </select>
+
+    <select id="getWareCourseByName" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseName != null">
+            and course_name LIKE CONCAT('%',#{courseName},'%')
+        </if>
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+
+    <select id="getWareCourseLimit" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from
+        <include refid="tableName"/>
+        ORDER BY update_time desc
+        <if test="start!=null">
+            LIMIT #{start},#{length}
+        </if>
+    </select>
+
+    <select id="getWareCourseCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseName != null">
+            and course_name LIKE CONCAT('%',#{courseName},'%')
+        </if>
+    </select>
+
+    <select id="getIdByName" resultType="java.lang.String">
+        select id from
+        <include refid="tableName"/>
+        where course_name = #{name}
+    </select>
+
+    <select id="getWareCourseName" resultType="java.lang.String">
+        select course_name from
+        <include refid="tableName"/>
+    </select>
+
+</mapper>

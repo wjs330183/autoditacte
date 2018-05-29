@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kefang.autoditacte.dao.TimeDao" >
+    <resultMap id="BaseResultMap" type="com.kefang.autoditacte.entity.sysmanage.Time" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="first_start_time" property="firstStartTime" jdbcType="TIMESTAMP" />
+        <result column="fist_end_time" property="fistEndTime" jdbcType="VARCHAR" />
+        <result column="year" property="year" jdbcType="INTEGER" />
+        <result column="second_start_time" property="secondStartTime" jdbcType="VARCHAR" />
+        <result column="second_end_time" property="secondEndTime" jdbcType="VARCHAR" />
+        <result column="first_synthesize_end" property="firstSynthesizeEnd" jdbcType="VARCHAR" />
+        <result column="second_synthesize_end" property="secondSynthesizeEnd" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, first_start_time, fist_end_time, year, second_start_time, second_end_time, first_synthesize_end,
+        second_synthesize_end
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_time
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from t_time
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.kefang.autoditacte.entity.sysmanage.Time" >
+        insert into t_time (id, first_start_time, fist_end_time,
+        year, second_start_time, second_end_time,
+        first_synthesize_end, second_synthesize_end
+        )
+        values (#{id,jdbcType=VARCHAR}, #{firstStartTime,jdbcType=TIMESTAMP}, #{fistEndTime,jdbcType=TIMESTAMP},
+        #{year,jdbcType=INTEGER}, #{secondStartTime,jdbcType=TIMESTAMP}, #{secondEndTime,jdbcType=TIMESTAMP},
+        #{firstSynthesizeEnd,jdbcType=TIMESTAMP}, #{secondSynthesizeEnd,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.kefang.autoditacte.entity.sysmanage.Time" >
+        insert into t_time
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="firstStartTime != null" >
+                first_start_time,
+            </if>
+            <if test="fistEndTime != null" >
+                fist_end_time,
+            </if>
+            <if test="year != null" >
+                year,
+            </if>
+            <if test="secondStartTime != null" >
+                second_start_time,
+            </if>
+            <if test="secondEndTime != null" >
+                second_end_time,
+            </if>
+            <if test="firstSynthesizeEnd != null" >
+                first_synthesize_end,
+            </if>
+            <if test="secondSynthesizeEnd != null" >
+                second_synthesize_end,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="firstStartTime != null" >
+                #{firstStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fistEndTime != null" >
+                #{fistEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="year != null" >
+                #{year,jdbcType=INTEGER},
+            </if>
+            <if test="secondStartTime != null" >
+                #{secondStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="secondEndTime != null" >
+                #{secondEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="firstSynthesizeEnd != null" >
+                #{firstSynthesizeEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="secondSynthesizeEnd != null" >
+                #{secondSynthesizeEnd,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.kefang.autoditacte.entity.sysmanage.Time" >
+        update t_time
+        <set >
+            <if test="firstStartTime != null" >
+                first_start_time = #{firstStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fistEndTime != null" >
+                fist_end_time = #{fistEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="year != null" >
+                year = #{year,jdbcType=INTEGER},
+            </if>
+            <if test="secondStartTime != null" >
+                second_start_time = #{secondStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="secondEndTime != null" >
+                second_end_time = #{secondEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="firstSynthesizeEnd != null" >
+                first_synthesize_end = #{firstSynthesizeEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="secondSynthesizeEnd != null" >
+                second_synthesize_end = #{secondSynthesizeEnd,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.kefang.autoditacte.entity.sysmanage.Time" >
+        update t_time
+        set first_start_time = #{firstStartTime,jdbcType=TIMESTAMP},
+        fist_end_time = #{fistEndTime,jdbcType=TIMESTAMP},
+        year = #{year,jdbcType=INTEGER},
+        second_start_time = #{secondStartTime,jdbcType=TIMESTAMP},
+        second_end_time = #{secondEndTime,jdbcType=TIMESTAMP},
+        first_synthesize_end = #{firstSynthesizeEnd,jdbcType=TIMESTAMP},
+        second_synthesize_end = #{secondSynthesizeEnd,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

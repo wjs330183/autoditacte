@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.MajorDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.Major">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tableName">t_major</sql>
+    <sql id="columns">
+        id,
+        code,
+        name,
+        create_time,
+        update_time,
+        note,
+        status
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save" parameterType="com.kefang.autoditacte.entity.Major">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.code != null">
+                code,
+            </if>
+            <if test="entity.name != null">
+                name,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+            <if test="entity.updateTime != null">
+                update_time,
+            </if>
+            <if test="entity.note != null">
+                note,
+            </if>
+            <if test="entity.status != null">
+                status,
+            </if>
+            <if test="entity.siteId != null">
+                site_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.code != null">
+                #{entity.code,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.name != null">
+                #{entity.name,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="entity.updateTime != null">
+                #{entity.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="entity.note != null">
+                #{entity.note,jdbcType=VARCHAR},
+            </if>
+            <if test="entity.status != null">
+                #{entity.status,jdbcType=INTEGER},
+            </if>
+            <if test="entity.siteId != null">
+                #{entity.siteId,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- mutipule entity save
+    <insert id="insertBatch">
+        insert into
+        <include refid="tableName"/>
+        (<include refid="columns"/>) values
+        <foreach collection="entities" open="(" close=")" item="entity" separator=",">
+        (
+            #{entity.id},
+            #{entity.code},
+            #{entity.name},
+            #{entity.createTime},
+            #{entity.updateTime},
+            #{entity.note},
+            #{entity.status}
+        )
+        </foreach>
+    </insert>
+    -->
+
+    <!-- get entity by id -->
+    <select id="getById" resultMap="resultMap">
+        select <include refid="columns"/>
+        from <include refid="tableName"/>
+        where id = #{id} and sys_del=0
+    </select>
+    <select id="getByName" resultMap="resultMap">
+        select <include refid="columns"/>
+        from <include refid="tableName"/>
+        where name = #{name}
+        AND site_id=#{siteId}
+        AND sys_del=0
+    </select>
+    <select id="getByCode" resultMap="resultMap">
+        select <include refid="columns"/>
+        from <include refid="tableName"/>
+        where code = #{code}
+        AND site_id=#{siteId}
+        AND sys_del=0
+    </select>
+    <update id="deleteById">
+        UPDATE
+        <include refid="tableName"/>
+        SET sys_del=0
+        where id=#{id} AND sys_del=0
+    </update>
+
+
+<!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.Major">
+        update
+        <include refid="tableName"/>
+        set
+            code = #{entity.code,jdbcType=VARCHAR},
+            name = #{entity.name,jdbcType=VARCHAR},
+            create_time = #{entity.createTime,jdbcType=TIMESTAMP},
+            update_time = #{entity.updateTime,jdbcType=TIMESTAMP},
+            note = #{entity.note,jdbcType=VARCHAR},
+            status = #{entity.status,jdbcType=INTEGER}
+        where id=#{entity.id,jdbcType=VARCHAR} and sys_del=0
+    </update>
+
+
+    <select id="getMajors" resultMap="resultMap">
+        select <include refid="columns"/>
+        from <include refid="tableName"/>
+        WHERE site_id=#{siteId} and sys_del=0
+    </select>
+    <select id="getTotalItemsCount" parameterType="string" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM <include refid="tableName"/>
+        WHERE site_id=#{siteId}
+        <if test=" majorName != null">
+            AND name LIKE CONCAT('%',#{majorName},'%' )
+        </if>
+        AND sys_del=0
+    </select>
+    <select id="getMajorsByPage" resultMap="resultMap">
+        SELECT <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE site_id=#{siteId} AND sys_del=0
+        <if test="majorName != null">
+            AND name LIKE CONCAT('%',#{majorName},'%' )
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex,jdbcType=INTEGER},#{page.pageSize,jdbcType=INTEGER}
+    </select>
+
+</mapper>

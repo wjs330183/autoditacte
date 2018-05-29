@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.AdminDao">
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.sysmanage.Admin">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="roleId" column="role_id" jdbcType="VARCHAR"/>
+        <result property="stationId" column="station_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="passWord" column="pass_word" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="photo" column="photo" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="siteId" column="site_id" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="BIT"/>
+        <result property="is_del" column="isDel" jdbcType="BIT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,role_id,station_id,user_name,pass_word,email,photo,phone,site_id,note,state,create_time,update_time,is_del
+
+    </sql>
+
+    <update id="update" parameterType="com.kefang.autoditacte.entity.sysmanage.Admin">
+      update t_admin
+        set
+        photo=#{photo,jdbcType=VARCHAR} ,
+        phone=#{phone,jdbcType=VARCHAR},
+        email=#{email,jdbcType=VARCHAR},
+        pass_word=#{passWord,jdbcType=VARCHAR},
+        update_time=#{updateTime,jdbcType=TIMESTAMP}
+       where
+        id=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryList" parameterType="com.kefang.autoditacte.utils.util.Querys" resultMap="resultMap">
+      select <include refid="Base_Column_List"/> from t_admin where is_del=0
+        <if test="doPage and paging != null">
+            LIMIT #{paging.limitStart}, #{paging.limitNum}
+        </if>
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer">
+     select count(id) from t_admin
+    </select>
+
+    <select id="selectById" resultMap="resultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"/> from t_admin where id=#{id}
+    </select>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.kefang.autoditacte.entity.sysmanage.Admin" >
+            update t_admin
+            <set >
+                <if test="roleId != null and roleId != '' " >
+                    role_id = #{roleId,jdbcType=VARCHAR},
+                </if>
+                <if test="stationId != null and stationId != '' " >
+                    station_id = #{stationId,jdbcType=VARCHAR},
+                </if>
+                <if test="userName != null and userName !='' " >
+                    user_name = #{userName,jdbcType=VARCHAR},
+                </if>
+                <if test="passWord != null and passWord!=''" >
+                    passWord = #{passWord,jdbcType=VARCHAR},
+                </if>
+                <if test="email != null and email !=''" >
+                    email = #{email,jdbcType=VARCHAR},
+                </if>
+                <if test="photo != null and photo !=''" >
+                    photo = #{photo,jdbcType=VARCHAR},
+                </if>
+                <if test="phone != null and phone !='' " >
+                    phone = #{phone,jdbcType=VARCHAR},
+                </if>
+                <if test="siteId != null and siteId!=''" >
+                    site_id = #{siteId,jdbcType=VARCHAR},
+                </if>
+                <if test="createTime != null" >
+                    create_time = #{createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="updateTime != null" >
+                    update_time = #{updateTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="note != null" >
+                    note = #{note,jdbcType=VARCHAR},
+                </if>
+                <if test="state != null" >
+                    state = #{state,jdbcType=BIT},
+                </if>
+                <if test="isDel !=null">
+                    is_del=#{isDel,jdbcType=BIT}
+                </if>
+            </set>
+            where id = #{id,jdbcType=VARCHAR}
+
+    </update>
+
+    <insert id="insertSelective" parameterType="com.kefang.autoditacte.entity.sysmanage.Admin" >
+    insert into t_admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+            id,
+        </if>
+        <if test="roleId != null" >
+            role_id,
+        </if>
+        <if test="stationId != null" >
+            station_id,
+        </if>
+        <if test="userName != null" >
+            user_name,
+        </if>
+        <if test="passWord != null" >
+            pass_word,
+        </if>
+        <if test="email != null" >
+            email,
+        </if>
+        <if test="photo != null" >
+            photo,
+        </if>
+        <if test="phone != null" >
+            phone,
+        </if>
+
+        <if test="siteId != null" >
+            site_id,
+        </if>
+        <if test="createTime != null" >
+            create_time,
+        </if>
+        <if test="updateTime != null" >
+            update_time,
+        </if>
+        <if test="note != null" >
+            note,
+        </if>
+        <if test="state != null" >
+            state,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+            #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="roleId != null" >
+            #{roleId,jdbcType=VARCHAR},
+        </if>
+        <if test="stationId != null" >
+            #{stationId,jdbcType=VARCHAR},
+        </if>
+        <if test="userName != null" >
+            #{userName,jdbcType=VARCHAR},
+        </if>
+        <if test="passWord != null" >
+            #{passWord,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null" >
+            #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="photo != null" >
+            #{photo,jdbcType=VARCHAR},
+        </if>
+        <if test="phone != null" >
+            #{phone,jdbcType=VARCHAR},
+        </if>
+        <if test="siteId != null" >
+            #{siteId,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null" >
+            #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+            #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="note != null" >
+            #{note,jdbcType=VARCHAR},
+        </if>
+        <if test="state != null" >
+            #{state,jdbcType=BIT},
+        </if>
+    </trim>
+</insert>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        update t_admin set is_del=1
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

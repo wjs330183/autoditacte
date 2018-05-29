@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.StudentNoteDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.StudentNote">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="courseId" column="course_id" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
+        <result property="wareId" column="ware_id" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="context" column="context" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="showStatus" column="show_status" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="tableName">t_student_note</sql>
+    <sql id="columns">
+        id,
+        course_id,
+        student_id,
+        ware_id,
+        title,
+        context,
+        create_time,
+        update_time,
+        show_status
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.courseId != null">
+                course_id,
+            </if>
+            <if test="entity.studentId != null">
+                student_id,
+            </if>
+            <if test="entity.wareId != null">
+                ware_id,
+            </if>
+            <if test="entity.title != null">
+                title,
+            </if>
+            <if test="entity.context != null">
+                context,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+            <if test="entity.updateTime != null">
+                update_time,
+            </if>
+            <if test="entity.showStatus != null">
+                show_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id},
+            </if>
+            <if test="entity.courseId != null">
+                #{entity.courseId},
+            </if>
+            <if test="entity.studentId != null">
+                #{entity.studentId},
+            </if>
+            <if test="entity.wareId != null">
+                #{entity.wareId},
+            </if>
+            <if test="entity.title != null">
+                #{entity.title},
+            </if>
+            <if test="entity.context != null">
+                #{entity.context},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime},
+            </if>
+            <if test="entity.updateTime != null">
+                #{entity.updateTime},
+            </if>
+            <if test="entity.showStatus != null">
+                #{entity.showStatus},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- mutipule entity save -->
+    <insert id="insertBatch">
+        insert into
+        <include refid="tableName"/>
+        (<include refid="columns"/>) values
+        <foreach collection="entities" item="entity" separator=",">
+            (
+            #{entity.id},
+            #{entity.courseId},
+            #{entity.studentId},
+            #{entity.wareId},
+            #{entity.title},
+            #{entity.context},
+            #{entity.createTime},
+            #{entity.updateTime},
+            #{entity.showStatus}
+            )
+        </foreach>
+    </insert>
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.StudentNote">
+        update
+        <include refid="tableName"/>
+        set
+        course_id = #{entity.courseId},
+        student_id = #{entity.studentId},
+        ware_id = #{entity.wareId},
+        title = #{entity.title},
+        context = #{entity.context},
+        create_time = #{entity.createTime},
+        update_time = #{entity.updateTime},
+        show_status = #{entity.showStatus}
+        where id=#{entity.id}
+    </update>
+
+
+    <select id="getTotalItemsCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseId != null">
+            AND course_id = #{courseId}
+        </if>
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <select id="getStudentNotesByPage" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="courseId != null">
+            AND course_id = #{courseId}
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex},#{page.pageSize}
+    </select>
+
+    <!--<select id="getStudentNotesByPage" resultMap="resultMap">-->
+        <!--SELECT-->
+        <!--<include refid="columns"/>-->
+        <!--FROM-->
+        <!--<include refid="tableName"/> a-->
+        <!--JOIN (-->
+        <!--SELECT-->
+        <!--`name`,id as id_another-->
+        <!--FROM-->
+        <!--kefang_autoditacte.t_course-->
+        <!--) b-->
+        <!--ON a.course_id=b.id-->
+        <!--WHERE 1=1-->
+        <!--<if test="name != null">-->
+        <!--AND name LIKE CONCAT('%',#{name},'%' )-->
+        <!--</if>-->
+        <!--ORDER BY-->
+        <!--a.update_time DESC-->
+        <!--LIMIT #{page.startIndex},#{page.pageSize}-->
+    <!--</select>-->
+</mapper>

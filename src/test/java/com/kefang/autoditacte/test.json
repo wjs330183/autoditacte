@@ -1,0 +1,250 @@
+查询成功{
+  "resultCode": 1000,
+  "resultData": {
+    "empty": false,
+    "firstPage": true,
+    "firstPageNum": 1,
+    "items": [
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "888888",
+          "cardType": 0,
+          "code": "888888",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "9",
+          "majorId": "艺术类",
+          "name": "陆豪威",
+          "note": "",
+          "password": "",
+          "phone": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1523865675000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "666666",
+          "cardType": 0,
+          "code": "666666",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "2",
+          "majorId": "理工科",
+          "name": "张廷威",
+          "note": "",
+          "password": "",
+          "phone": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1523865581000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "245454545545",
+          "cardType": 0,
+          "code": "21321",
+          "createTime": 1520989071000,
+          "hide": false,
+          "id": "11",
+          "majorId": "",
+          "name": "45454",
+          "note": "",
+          "password": "",
+          "phone": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1521106203000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "54354",
+          "cardType": 0,
+          "code": "rewrwe",
+          "createTime": 1520989010000,
+          "hide": false,
+          "id": "10",
+          "majorId": "",
+          "name": "ewrer",
+          "note": "",
+          "password": "",
+          "phone": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1520989010000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "330824199912123456",
+          "cardType": 0,
+          "code": "330824199912123456",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "8",
+          "majorId": "艺术类",
+          "name": "王昕",
+          "note": "",
+          "password": "",
+          "phone": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1517377179000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "330821199910123456",
+          "cardType": 0,
+          "code": "330821199910123456",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "3",
+          "majorId": "理工科",
+          "name": "徐海燕",
+          "password": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1516948682000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "330803200002123456",
+          "cardType": 0,
+          "code": "330803200002123456",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "4",
+          "majorId": "理工科",
+          "name": "夏陈浩",
+          "password": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1516948682000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "330802200007123456",
+          "cardType": 0,
+          "code": "330802200007123456",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "5",
+          "majorId": "理工科",
+          "name": "孔庆飞",
+          "password": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1516948682000
+        },
+        "studentDetail": {
+          "address": "43257629814872",
+          "age": 12,
+          "applyImg": "43257629814872",
+          "birthday": "2018-05-29 01:44:52.0",
+          "cardImg": "43257629814872",
+          "codeImg": "43257629814872",
+          "collectiveCode": "43257629814872",
+          "diplomaNo": "43257629814872",
+          "email": "43257629814872",
+          "graduateDate": "4325",
+          "graduateSchool": "43257629814872",
+          "id": "5",
+          "nation": "43257629814872",
+          "note": "43257629814872",
+          "pigeonhole": false,
+          "schoolRollNo": "43257629814872",
+          "studentId": "43257629814872",
+          "studyKind": 1,
+          "yearCode": "43257629814872",
+          "zipCode": "43257629814872"
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "330802199911123456",
+          "cardType": 0,
+          "code": "330802199911123456",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "6",
+          "majorId": "理工科",
+          "name": "郑燕玲",
+          "note": "",
+          "password": "",
+          "phone": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1516948682000
+        }
+      },
+      {
+        "student": {
+          "auditStatus": 0,
+          "byCard": false,
+          "cardId": "330821200008123456",
+          "cardType": 0,
+          "code": "330821200008123456",
+          "createTime": 1516948682000,
+          "hide": false,
+          "id": "7",
+          "majorId": "艺术类",
+          "name": "汪洋",
+          "password": "",
+          "siteId": "",
+          "stationId": "",
+          "status": true,
+          "updateTime": 1516948682000
+        }
+      }
+    ],
+    "itemsTotalCount": 12,
+    "lastPage": false,
+    "lastPageNum": 2,
+    "nextPageNum": 2,
+    "pageNum": 1,
+    "pageSize": 10,
+    "pageTotalCount": 2,
+    "prePageNum": 1,
+    "showDot": false,
+    "showNums": [
+      1,
+      2
+    ],
+    "showPage": 5,
+    "startIndex": 0
+  },
+  "resultMsg": "查询成功"
+}

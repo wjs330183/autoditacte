@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.PaymentInfoDao">
+  <resultMap id="BaseResultMap" type="com.kefang.autoditacte.entity.PaymentInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="payment_order_id" jdbcType="VARCHAR" property="paymentOrderId" />
+    <result column="payed_money" jdbcType="DOUBLE" property="payedMoney" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    id, student_id, course_id, payment_order_id, payed_money, create_time, update_time, 
+    note
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from t_payment_info
+    where id = #{id,jdbcType=VARCHAR}
+    AND sys_del=0
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+    update t_payment_info
+    set
+    sys_del=1
+    where id = #{id,jdbcType=VARCHAR}
+    and sys_del=0
+  </update>
+  <insert id="insert" parameterType="com.kefang.autoditacte.entity.PaymentInfo">
+
+    insert into t_payment_info (id, student_id, course_id, 
+      payment_order_id, payed_money, create_time, 
+      update_time, note)
+    values (#{id,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, 
+      #{paymentOrderId,jdbcType=VARCHAR}, #{payedMoney,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kefang.autoditacte.entity.PaymentInfo">
+
+    insert into t_payment_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="paymentOrderId != null">
+        payment_order_id,
+      </if>
+      <if test="payedMoney != null">
+        payed_money,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentOrderId != null">
+        #{paymentOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payedMoney != null">
+        #{payedMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kefang.autoditacte.entity.PaymentInfo">
+
+    update t_payment_info
+    <set>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentOrderId != null">
+        payment_order_id = #{paymentOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payedMoney != null">
+        payed_money = #{payedMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+    and sys_del=0
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kefang.autoditacte.entity.PaymentInfo">
+
+    update t_payment_info
+    set student_id = #{studentId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      payment_order_id = #{paymentOrderId,jdbcType=VARCHAR},
+      payed_money = #{payedMoney,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} and sys_del=0
+  </update>
+  <select id="getPaymentInfoByPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    FROM t_payment_info
+    WHERE sys_del=0
+    <if test="courseId != null">
+      AND course_id=#{courseId}
+    </if>
+    <if test="stationId != null">
+      AND station_id=#{stationId}
+    </if>
+    <if test="status != null">
+      AND status=#{status}
+    </if>
+    order by update_time desc
+    LIMIT #{page.startIndex,jdbcType=INTEGER},#{page.pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getTotalItemsCount" resultType="java.lang.Integer">
+    select COUNT (*)
+    FROM t_payment_info
+    WHERE sys_del=0
+    <if test="courseId != null">
+      AND course_id=#{courseId}
+    </if>
+    <if test="stationId != null">
+      AND station_id=#{stationId}
+    </if>
+    <if test="status != null">
+      AND status=#{status}
+    </if>
+  </select>
+  <select id="getTotalItemsCountByStudentId" resultType="java.lang.Integer">
+    SELECT COUNT (*)
+    FROM t_payment_info
+    WHERE sys_del=0
+    <if test="studentId != null">
+      AND student_id=#{studentId}
+    </if>
+  </select>
+  <select id="getPaymentInfoByStudentId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    FROM t_payment_info
+    WHERE sys_del=0
+    AND student_id=#{studentId}
+    order by update_time desc
+    LIMIT #{page.startIndex,jdbcType=INTEGER},#{page.pageSize,jdbcType=INTEGER}
+  </select>
+</mapper>

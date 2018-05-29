@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.StudentDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.Student">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="cardType" column="card_type" jdbcType="INTEGER"/>
+        <result property="cardId" column="card_id" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="majorId" column="major_id" jdbcType="VARCHAR"/>
+        <result property="stationId" column="station_id" jdbcType="VARCHAR"/>
+        <result property="siteId" column="site_id" jdbcType="VARCHAR"/>
+        <result property="byCard" column="by_card" jdbcType="BIT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="auditStatus" column="audit_status" jdbcType="INTEGER"/>
+        <result property="hide" column="hide" jdbcType="BIT"/>
+        <result property="status" column="status" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="tableName">t_student</sql>
+    <sql id="columns">
+                    id,
+                    code,
+                    name,
+                    password,
+                    card_type,
+                    card_id,
+                    phone,
+                    major_id,
+                    station_id,
+                    site_id,
+                    by_card,
+        create_time,
+        update_time,
+                    note,
+                    audit_status,
+                    hide,
+                    status
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+                <if test="entity.id != null" >
+                    id,
+                </if>
+                <if test="entity.code != null" >
+                    code,
+                </if>
+                <if test="entity.name != null" >
+                    name,
+                </if>
+                <if test="entity.password != null" >
+                    password,
+                </if>
+                <if test="entity.cardType != null" >
+                    card_type,
+                </if>
+                <if test="entity.cardId != null" >
+                    card_id,
+                </if>
+                <if test="entity.phone != null" >
+                    phone,
+                </if>
+                <if test="entity.majorId != null" >
+                    major_id,
+                </if>
+                <if test="entity.stationId != null" >
+                    station_id,
+                </if>
+                <if test="entity.siteId != null" >
+                    site_id,
+                </if>
+                <if test="entity.byCard != null" >
+                    by_card,
+                </if>
+                <if test="entity.createTime != null" >
+                    create_time,
+                </if>
+                <if test="entity.updateTime != null" >
+                    update_time,
+                </if>
+                <if test="entity.note != null" >
+                    note,
+                </if>
+                <if test="entity.auditStatus != null" >
+                    audit_status,
+                </if>
+                <if test="entity.hide != null" >
+                    hide,
+                </if>
+             <if test="entity.status != null" >
+                status,
+             </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+                <if test="entity.id != null" >
+                    #{entity.id},
+                </if>
+                <if test="entity.code != null" >
+                    #{entity.code},
+                </if>
+                <if test="entity.name != null" >
+                    #{entity.name},
+                </if>
+                <if test="entity.password != null" >
+                    #{entity.password},
+                </if>
+                <if test="entity.cardType != null" >
+                    #{entity.cardType},
+                </if>
+                <if test="entity.cardId != null" >
+                    #{entity.cardId},
+                </if>
+                <if test="entity.phone != null" >
+                    #{entity.phone},
+                </if>
+                <if test="entity.majorId != null" >
+                    #{entity.majorId},
+                </if>
+                <if test="entity.stationId != null" >
+                    #{entity.stationId},
+                </if>
+                <if test="entity.siteId != null" >
+                    #{entity.siteId},
+                </if>
+                <if test="entity.byCard != null" >
+                    #{entity.byCard},
+                </if>
+                <if test="entity.createTime != null" >
+                    #{entity.createTime},
+                </if>
+                <if test="entity.updateTime != null" >
+                    #{entity.updateTime},
+                </if>
+                <if test="entity.note != null" >
+                    #{entity.note},
+                </if>
+                <if test="entity.auditStatus != null" >
+                    #{entity.auditStatus},
+                </if>
+                <if test="entity.hide != null" >
+                    #{entity.hide},
+                </if>
+             <if test="entity.status != null" >
+                 #{entity.status},
+             </if>
+        </trim>
+    </insert>
+
+    <!-- mutipule entity save -->
+    <insert id="insertBatch">
+        insert into
+        <include refid="tableName"/>
+        (<include refid="columns"/>) values
+        <foreach collection="entities" item="entity" separator=",">
+        (
+            #{entity.id},
+            #{entity.code},
+            #{entity.name},
+            #{entity.password},
+            #{entity.cardType},
+            #{entity.cardId},
+            #{entity.phone},
+            #{entity.majorId},
+            #{entity.stationId},
+            #{entity.siteId},
+            #{entity.byCard},
+            #{entity.createTime},
+            #{entity.updateTime},
+            #{entity.note},
+            #{entity.auditStatus},
+            #{entity.hide},
+            #{entity.status}
+        )
+        </foreach>
+    </insert>
+
+<!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.Student">
+        update
+        <include refid="tableName"/>
+        set
+            code = #{entity.code},
+            name = #{entity.name},
+            password = #{entity.password},
+            card_type = #{entity.cardType},
+            card_id = #{entity.cardId},
+            phone = #{entity.phone},
+            major_id = #{entity.majorId},
+            station_id = #{entity.stationId},
+            site_id = #{entity.siteId},
+            by_card = #{entity.byCard},
+            create_time = #{entity.createTime},
+        update_time = #{entity.updateTime},
+            note = #{entity.note},
+            audit_status = #{entity.auditStatus},
+            hide = #{entity.hide},
+            status = #{entity.status}
+        where id=#{entity.id}
+    </update>
+
+
+
+    <select id="getTotalItemsCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="keyWord != null">
+            AND name=#{keyWord}
+            OR code=#{keyWord}
+        </if>
+        <if test="courseId != null">
+            AND course_id=#{courseId}
+        </if>
+        <if test="siteId != null">
+            AND site_id=#{siteId}
+        </if>
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <select id="getStudentsByPage" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="keyWord != null">
+            AND name=#{keyWord}
+            OR code=#{keyWord}
+        </if>
+        <if test="courseId != null">
+            AND course_id=#{courseId}
+        </if>
+        <if test="siteId != null">
+            AND site_id=#{siteId}
+        </if>
+        ORDER BY create_time desc
+        LIMIT #{page.startIndex},#{page.pageSize}
+    </select>
+
+    <select id="getStudents" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="keyWord != null">
+            AND name =#{keyWord}
+            OR code=#{keyWord}
+        </if>
+        <if test="stationId != null">
+            AND station_id =#{stationId}
+        </if>
+        <if test="status != null">
+            AND status =#{status}
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex},#{page.pageSize}
+    </select>
+
+    <select id="getTotalItemsCounts" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="keyWord != null">
+            AND name =#{keyWord}
+            OR code=#{keyWord}
+        </if>
+        <if test="stationId != null">
+            AND station_id =#{stationId}
+        </if>
+        <if test="status != null">
+            AND status =#{status}
+        </if>
+    </select>
+
+    <select id="getStudentById" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </select>
+</mapper>

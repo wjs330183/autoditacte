@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.StudentDetailDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.StudentDetail">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
+        <result property="cardImg" column="card_img" jdbcType="VARCHAR"/>
+        <result property="codeImg" column="code_img" jdbcType="VARCHAR"/>
+        <result property="applyImg" column="apply_img" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="nation" column="nation" jdbcType="VARCHAR"/>
+        <result property="zipCode" column="zipCode" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="graduateSchool" column="graduate_school" jdbcType="VARCHAR"/>
+        <result property="graduateDate" column="graduate_date" jdbcType="VARCHAR"/>
+        <result property="schoolRollNo" column="school_roll_no" jdbcType="VARCHAR"/>
+        <result property="diplomaNo" column="diplomaNo" jdbcType="VARCHAR"/>
+        <result property="studyKind" column="study_kind" jdbcType="INTEGER"/>
+        <result property="collectiveCode" column="collective_code" jdbcType="VARCHAR"/>
+        <result property="yearCode" column="year_code" jdbcType="VARCHAR"/>
+        <result property="pigeonhole" column="pigeonhole" jdbcType="BIT"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="tableName">t_student_detail</sql>
+    <sql id="columns">
+        id,
+        student_id,
+        card_img,
+        code_img,
+        apply_img,
+        age,
+        birthday,
+        nation,
+        zipCode,
+        email,
+        graduate_school,
+        graduate_date,
+        school_roll_no,
+        diplomaNo,
+        study_kind,
+        collective_code,
+        year_code,
+        pigeonhole,
+        address,
+        note
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.studentId != null">
+                student_id,
+            </if>
+            <if test="entity.cardImg != null">
+                card_img,
+            </if>
+            <if test="entity.codeImg != null">
+                code_img,
+            </if>
+            <if test="entity.applyImg != null">
+                apply_img,
+            </if>
+            <if test="entity.age != null">
+                age,
+            </if>
+            <if test="entity.birthday != null">
+                birthday,
+            </if>
+            <if test="entity.nation != null">
+                nation,
+            </if>
+            <if test="entity.zipCode != null">
+                zipCode,
+            </if>
+            <if test="entity.email != null">
+                email,
+            </if>
+            <if test="entity.graduateSchool != null">
+                graduate_school,
+            </if>
+            <if test="entity.graduateDate != null">
+                graduate_date,
+            </if>
+            <if test="entity.schoolRollNo != null">
+                school_roll_no,
+            </if>
+            <if test="entity.diplomaNo != null">
+                diplomaNo,
+            </if>
+            <if test="entity.studyKind != null">
+                study_kind,
+            </if>
+            <if test="entity.collectiveCode != null">
+                collective_code,
+            </if>
+            <if test="entity.yearCode != null">
+                year_code,
+            </if>
+            <if test="entity.pigeonhole != null">
+                pigeonhole,
+            </if>
+            <if test="entity.address != null">
+                address,
+            </if>
+            <if test="entity.note != null">
+                note,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id},
+            </if>
+            <if test="entity.studentId != null">
+                #{entity.studentId},
+            </if>
+            <if test="entity.cardImg != null">
+                #{entity.cardImg},
+            </if>
+            <if test="entity.codeImg != null">
+                #{entity.codeImg},
+            </if>
+            <if test="entity.applyImg != null">
+                #{entity.applyImg},
+            </if>
+            <if test="entity.age != null">
+                #{entity.age},
+            </if>
+            <if test="entity.birthday != null">
+                #{entity.birthday},
+            </if>
+            <if test="entity.nation != null">
+                #{entity.nation},
+            </if>
+            <if test="entity.zipCode != null">
+                #{entity.zipCode},
+            </if>
+            <if test="entity.email != null">
+                #{entity.email},
+            </if>
+            <if test="entity.graduateSchool != null">
+                #{entity.graduateSchool},
+            </if>
+            <if test="entity.graduateDate != null">
+                #{entity.graduateDate},
+            </if>
+            <if test="entity.schoolRollNo != null">
+                #{entity.schoolRollNo},
+            </if>
+            <if test="entity.diplomaNo != null">
+                #{entity.diplomaNo},
+            </if>
+            <if test="entity.studyKind != null">
+                #{entity.studyKind},
+            </if>
+            <if test="entity.collectiveCode != null">
+                #{entity.collectiveCode},
+            </if>
+            <if test="entity.yearCode != null">
+                #{entity.yearCode},
+            </if>
+            <if test="entity.pigeonhole != null">
+                #{entity.pigeonhole},
+            </if>
+            <if test="entity.address != null">
+                #{entity.address},
+            </if>
+            <if test="entity.note != null">
+                #{entity.note},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- mutipule entity save -->
+    <insert id="insertBatch">
+        insert into
+        <include refid="tableName"/>
+        (<include refid="columns"/>) values
+        <foreach collection="entities" item="entity" separator=",">
+            (
+            #{entity.id},
+            #{entity.studentId},
+            #{entity.cardImg},
+            #{entity.codeImg},
+            #{entity.applyImg},
+            #{entity.age},
+            #{entity.birthday},
+            #{entity.nation},
+            #{entity.zipCode},
+            #{entity.email},
+            #{entity.graduateSchool},
+            #{entity.graduateDate},
+            #{entity.schoolRollNo},
+            #{entity.diplomaNo},
+            #{entity.studyKind},
+            #{entity.collectiveCode},
+            #{entity.yearCode},
+            #{entity.pigeonhole},
+            #{entity.address},
+            #{entity.note}
+            )
+        </foreach>
+    </insert>
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.StudentDetail">
+        update
+        <include refid="tableName"/>
+        set
+        student_id = #{entity.studentId},
+        card_img = #{entity.cardImg},
+        code_img = #{entity.codeImg},
+        apply_img = #{entity.applyImg},
+        age = #{entity.age},
+        birthday = #{entity.birthday},
+        nation = #{entity.nation},
+        zipCode = #{entity.zipCode},
+        email = #{entity.email},
+        graduate_school = #{entity.graduateSchool},
+        graduate_date = #{entity.graduateDate},
+        school_roll_no = #{entity.schoolRollNo},
+        diplomaNo = #{entity.diplomaNo},
+        study_kind = #{entity.studyKind},
+        collective_code = #{entity.collectiveCode},
+        year_code = #{entity.yearCode},
+        pigeonhole = #{entity.pigeonhole},
+        address = #{entity.address},
+        note = #{entity.note}
+        where id=#{entity.id}
+    </update>
+
+
+    <select id="getTotalItemsCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <select id="getStudentDetailsByPage" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        LIMIT #{page.startIndex},#{page.pageSize}
+    </select>
+
+    <select id="getStudentDetailsById" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE id=#{id}
+    </select>
+</mapper>

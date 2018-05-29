@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kefang.autoditacte.dao.StudentEvaluateDao">
+
+    <resultMap id="resultMap" type="com.kefang.autoditacte.entity.StudentEvaluate">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
+        <result property="courseId" column="course_id" jdbcType="VARCHAR"/>
+        <result property="applyStatus" column="apply_status" jdbcType="INTEGER"/>
+        <result property="applyTime" column="apply_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="tableName">t_student_evaluate</sql>
+    <sql id="columns">
+        id,
+        student_id,
+        course_id,
+        apply_status,
+        apply_time,
+        create_time
+    </sql>
+
+
+    <!-- single entity save -->
+    <insert id="save">
+        insert IGNORE into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                id,
+            </if>
+            <if test="entity.studentId != null">
+                student_id,
+            </if>
+            <if test="entity.courseId != null">
+                course_id,
+            </if>
+            <if test="entity.applyStatus != null">
+                apply_status,
+            </if>
+            <if test="entity.applyTime != null">
+                apply_time,
+            </if>
+            <if test="entity.createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entity.id != null">
+                #{entity.id},
+            </if>
+            <if test="entity.studentId != null">
+                #{entity.studentId},
+            </if>
+            <if test="entity.courseId != null">
+                #{entity.courseId},
+            </if>
+            <if test="entity.applyStatus != null">
+                #{entity.applyStatus},
+            </if>
+            <if test="entity.applyTime != null">
+                #{entity.applyTime},
+            </if>
+            <if test="entity.createTime != null">
+                #{entity.createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- mutipule entity save -->
+    <insert id="insertBatch">
+        insert into
+        <include refid="tableName"/>
+        (<include refid="columns"/>) values
+        <foreach collection="entities" item="entity" separator=",">
+            (
+            #{entity.id},
+            #{entity.studentId},
+            #{entity.courseId},
+            #{entity.applyStatus},
+            #{entity.applyTime},
+            #{entity.createTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- update entity -->
+    <update id="update" parameterType="com.kefang.autoditacte.entity.StudentEvaluate">
+        update
+        <include refid="tableName"/>
+        set
+        student_id = #{entity.studentId},
+        course_id = #{entity.courseId},
+        apply_status = #{entity.applyStatus},
+        apply_time = #{entity.applyTime},
+        create_time = #{entity.createTime}
+        where id=#{entity.id}
+    </update>
+
+
+    <select id="getTotalItemsCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="tableName"/>
+        where id=#{id}
+    </delete>
+
+
+    <select id="getStudentEvaluatesByPage" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex},#{page.pageSize}
+    </select>
+
+    <select id="getTotalItemsCounts" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="keyWord != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+    </select>
+
+    <select id="getAllEvaluates" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+    </select>
+
+    <select id="getByStudentId" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        where student_id=#{studentId}
+        <if test="status != null">
+            AND apply_status=status
+        </if>
+    </select>
+
+</mapper>

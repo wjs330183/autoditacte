@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kefang.autoditacte.dao.ScoreDao" >
+  <resultMap id="BaseResultMap" type="com.kefang.autoditacte.entity.sysmanage.Score" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="common_grade" property="commonGrade" jdbcType="REAL" />
+    <result column="note_grade" property="noteGrade" jdbcType="REAL" />
+    <result column="once_note_grade" property="onceNoteGrade" jdbcType="REAL" />
+    <result column="login_grade" property="loginGrade" jdbcType="REAL" />
+    <result column="work_grade" property="workGrade" jdbcType="REAL" />
+    <result column="once_work_grade" property="onceWorkGrade" jdbcType="REAL" />
+    <result column="exam_grade" property="examGrade" jdbcType="REAL" />
+    <result column="site_id" property="siteid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, common_grade, note_grade, once_note_grade, login_grade, work_grade, once_work_grade, 
+    exam_grade, site_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_score_setup
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_score_setup
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.kefang.autoditacte.entity.sysmanage.Score" >
+    insert into t_score_setup (id, common_grade, note_grade, 
+      once_note_grade, login_grade, work_grade, 
+      once_work_grade, exam_grade, site_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{commonGrade,jdbcType=REAL}, #{noteGrade,jdbcType=REAL}, 
+      #{onceNoteGrade,jdbcType=REAL}, #{loginGrade,jdbcType=REAL}, #{workGrade,jdbcType=REAL}, 
+      #{onceWorkGrade,jdbcType=REAL}, #{examGrade,jdbcType=REAL}, #{siteid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kefang.autoditacte.entity.sysmanage.Score" >
+    insert into t_score_setup
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commonGrade != null" >
+        common_grade,
+      </if>
+      <if test="noteGrade != null" >
+        note_grade,
+      </if>
+      <if test="onceNoteGrade != null" >
+        once_note_grade,
+      </if>
+      <if test="loginGrade != null" >
+        login_grade,
+      </if>
+      <if test="workGrade != null" >
+        work_grade,
+      </if>
+      <if test="onceWorkGrade != null" >
+        once_work_grade,
+      </if>
+      <if test="examGrade != null" >
+        exam_grade,
+      </if>
+      <if test="siteid != null" >
+        site_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="commonGrade != null" >
+        #{commonGrade,jdbcType=REAL},
+      </if>
+      <if test="noteGrade != null" >
+        #{noteGrade,jdbcType=REAL},
+      </if>
+      <if test="onceNoteGrade != null" >
+        #{onceNoteGrade,jdbcType=REAL},
+      </if>
+      <if test="loginGrade != null" >
+        #{loginGrade,jdbcType=REAL},
+      </if>
+      <if test="workGrade != null" >
+        #{workGrade,jdbcType=REAL},
+      </if>
+      <if test="onceWorkGrade != null" >
+        #{onceWorkGrade,jdbcType=REAL},
+      </if>
+      <if test="examGrade != null" >
+        #{examGrade,jdbcType=REAL},
+      </if>
+      <if test="siteid != null" >
+        #{siteid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kefang.autoditacte.entity.sysmanage.Score" >
+    update t_score_setup
+    <set >
+      <if test="commonGrade != null" >
+        common_grade = #{commonGrade,jdbcType=REAL},
+      </if>
+      <if test="noteGrade != null" >
+        note_grade = #{noteGrade,jdbcType=REAL},
+      </if>
+      <if test="onceNoteGrade != null" >
+        once_note_grade = #{onceNoteGrade,jdbcType=REAL},
+      </if>
+      <if test="loginGrade != null" >
+        login_grade = #{loginGrade,jdbcType=REAL},
+      </if>
+      <if test="workGrade != null" >
+        work_grade = #{workGrade,jdbcType=REAL},
+      </if>
+      <if test="onceWorkGrade != null" >
+        once_work_grade = #{onceWorkGrade,jdbcType=REAL},
+      </if>
+      <if test="examGrade != null" >
+        exam_grade = #{examGrade,jdbcType=REAL},
+      </if>
+      <if test="siteid != null" >
+        site_id = #{siteid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kefang.autoditacte.entity.sysmanage.Score" >
+    update t_score_setup
+    set common_grade = #{commonGrade,jdbcType=REAL},
+      note_grade = #{noteGrade,jdbcType=REAL},
+      once_note_grade = #{onceNoteGrade,jdbcType=REAL},
+      login_grade = #{loginGrade,jdbcType=REAL},
+      work_grade = #{workGrade,jdbcType=REAL},
+      once_work_grade = #{onceWorkGrade,jdbcType=REAL},
+      exam_grade = #{examGrade,jdbcType=REAL},
+      siteId = #{siteid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
