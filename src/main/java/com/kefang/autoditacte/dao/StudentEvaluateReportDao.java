@@ -28,4 +28,8 @@ public interface StudentEvaluateReportDao {
     List<StudentEvaluateReport> getStudentEvaluateReportsByPage(@Param("name") String name, @Param("page") TailPage<StudentEvaluateReport> page);
 
     Integer getTotalItemsCount(@Param("name") String name);
+
+    StudentEvaluateReport getStudentEvaluateReport(String studentId);
+
+
 }

@@ -36,9 +36,17 @@ public class StudentEvaluateDto extends StudentEvaluate {
      *证件号码
      */
     private String cardId;
-    /**
-     *助学机构name
-     */
+
     private String stationName;
+
+    private String stationCode;
+
+    private String siteName;
+
+    private String siteCode;
+
+    private String majorName;
+
+    private String majorCode;
 
 }

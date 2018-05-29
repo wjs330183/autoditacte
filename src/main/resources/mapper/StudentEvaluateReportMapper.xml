@@ -170,4 +170,12 @@
         ORDER BY update_time desc
         LIMIT #{page.startIndex},#{page.pageSize}
     </select>
+    <select id="getStudentEvaluateReport" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE student_id=#{studentId}
+    </select>
+
 </mapper>
