@@ -47,12 +47,12 @@ public class MajorController {
     //分页
     @RequestMapping(value = {"/baseInfo/1/majorsPage"},method = RequestMethod.GET)
     @ResponseBody
-    public TailPage<MajorDto> getMajorsByPage(@RequestParam(value = "majorName",required = false) String majorName,TailPage<Major> page,HttpServletRequest request) {
+    public JsonData getMajorsByPage(@RequestParam(value = "majorName",required = false) String majorName, TailPage<Major> page, HttpServletRequest request) {
         try {
             String token=request.getParameter("token");
-            return majorService.getMajorsByPage(majorName, page,token);
+            return JsonData.success(majorService.getMajorsByPage(majorName, page,token),"查询成功");
         } catch (UnsupportedEncodingException e) {
-            return new TailPage<MajorDto>();
+            return JsonData.fail("查询失败");
         }
     }
 

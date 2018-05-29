@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class PaymentInfoController {
     @Resource
     private PaymentInfoService paymentInfoService;
-    @RequestMapping(value = {"paymentManagement/1/paymentPages"})
+    @RequestMapping(value = {"paymentManagement/1/paymentsPage"})
     @ResponseBody
     public JsonData getPaymentInfoByPage(@RequestParam(value = "courseId",required = false) String courseId, @RequestParam(value = "stationId",required = false) String stationId, @RequestParam(value = "status",required = false) Integer status, @RequestParam(value = "keyWord",required = false) String keyWord, TailPage page){
         //try{

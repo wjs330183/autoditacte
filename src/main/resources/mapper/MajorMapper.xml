@@ -125,7 +125,7 @@
     <update id="deleteById">
         UPDATE
         <include refid="tableName"/>
-        SET sys_del=0
+        SET sys_del=1
         where id=#{id} AND sys_del=0
     </update>
 
