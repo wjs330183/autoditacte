@@ -9,5 +9,8 @@
         <module name="autoditacte" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="autoditacte" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -131,6 +131,16 @@
         </if>
     </select>
 
+    <select id="getTotalItemsCounts" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND course_id=#{courseId}
+        </if>
+    </select>
+
     <delete id="deleteById">
         DELETE FROM
         <include refid="tableName"/>
@@ -150,4 +160,24 @@
         ORDER BY update_time desc
         LIMIT #{page.startIndex},#{page.pageSize}
     </select>
+    <select id="getStudentEvaluateReportFinallys" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE 1=1
+        <if test="name != null">
+            AND name LIKE CONCAT('%',#{name},'%' )
+        </if>
+        ORDER BY update_time desc
+        LIMIT #{page.startIndex},#{page.pageSize}
+    </select>
+    <select id="getStudentEvaluateReportFinallyByStudentEvaluateReportId" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE student_evaluate_report_id=#{studentEvaluateReportId}
+    </select>
+
 </mapper>
