@@ -22,12 +22,12 @@ public class StudentEvaluateReportFinallyController {
 
     @RequestMapping(value = {"/studentManager/2/studentEvaluateReportFinally"},method = RequestMethod.POST)
     @ResponseBody
-    public JsonData save((@RequestParam(value = "startTime", required = false) String startTime,
-                         (@RequestParam(value = "endTime", required = false) String endTime,
-                         (@RequestParam(value = "courseId", required = false) String courseId,
-                         (@RequestParam(value = "stationId", required = false) String stationId,
-                         (@RequestParam(value = "status", required = false) String status,
-                         (@RequestParam(value = "keyWord", required = false) String keyWord,
+    public JsonData save(@RequestParam(value = "startTime", required = false) String startTime,
+                         @RequestParam(value = "endTime", required = false) String endTime,
+                         @RequestParam(value = "courseId", required = false) String courseId,
+                         @RequestParam(value = "stationId", required = false) String stationId,
+                         @RequestParam(value = "status", required = false) String status,
+                         @RequestParam(value = "keyWord", required = false) String keyWord,
                          TailPage page){
         return studentEvaluateReportFinallyService.getStudentEvaluateReportFinallys(startTime, endTime, courseId, stationId, status, keyWord, page);
     }
