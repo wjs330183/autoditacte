@@ -15,4 +15,9 @@ public class StudentNoteDto extends StudentNote {
         BeanUtils.copyProperties(major,majorDto);
         return majorDto;
     }
+
+    private String code;
+    private String name;
+    private String stationName;
+
 }

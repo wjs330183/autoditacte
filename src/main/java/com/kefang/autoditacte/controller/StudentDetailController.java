@@ -53,7 +53,7 @@ public class StudentDetailController {
     @RequestMapping(value = {"/studentManager/4/students"}, method = RequestMethod.GET)
     @ResponseBody
     public JsonData getStudentDetailsByName(@RequestParam(value = "status", required = false) String status, @RequestParam(value = "keyWord", required = false) String keyWord, TailPage page) {
-        return studentService.getStudents(null, status, keyWord, page);
+        return studentService.getAllStudents(null, status, keyWord, page);
     }
 
 }

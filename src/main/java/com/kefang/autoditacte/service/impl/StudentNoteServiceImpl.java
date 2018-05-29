@@ -1,7 +1,11 @@
 package com.kefang.autoditacte.service.impl;
 
+import com.kefang.autoditacte.dao.StationDao;
+import com.kefang.autoditacte.dao.StudentDao;
 import com.kefang.autoditacte.dto.StudentNoteDto;
 import com.kefang.autoditacte.entity.Course;
+import com.kefang.autoditacte.entity.Station;
+import com.kefang.autoditacte.entity.Student;
 import com.kefang.autoditacte.param.CourseParam;
 import com.kefang.autoditacte.service.CourseService;
 import org.springframework.stereotype.Service;
@@ -39,6 +43,13 @@ public class StudentNoteServiceImpl implements StudentNoteService {
 
     @Resource
     private CourseService courseService;
+
+    @Resource
+    private StudentDao studentDao;
+
+    @Resource
+    private StationDao stationDao;
+
 
     /**
      * 单个保存
@@ -130,11 +141,18 @@ public class StudentNoteServiceImpl implements StudentNoteService {
             List<StudentNote> studentNoteList = studentNoteDao.getStudentNotesByPage(courseId, page);
             List<StudentNoteDto> studentNoteDtoList = new ArrayList<>();
             for (StudentNote studentNote : studentNoteList) {
-               StudentNoteDto studentNoteDto=StudentNoteDto.adapt(studentNote);
-               studentNoteDtoList.add(studentNoteDto);
+                StudentNoteDto studentNoteDto = StudentNoteDto.adapt(studentNote);
+                studentNoteDtoList.add(studentNoteDto);
+                Student student = studentDao.getStudentById(studentNote.getStudentId());
+                if (student != null) {
+                    Station station = stationDao.getById(student.getStationId());
+                    studentNoteDto.setStationName(station.getName());
+                    studentNoteDto.setCode(student.getCode());
+                    studentNoteDto.setName(student.getName());
+                }
             }
             for (StudentNoteDto studentNoteDto : studentNoteDtoList) {
-                Course data =  courseService.getCourseById(studentNoteDto.getCourseId());
+                Course data = courseService.getCourseById(studentNoteDto.getCourseId());
                 if (data != null) {
                     studentNoteDto.setCourseName(data.getName());
                 }
