@@ -264,13 +264,13 @@ public class CourseServiceImpl implements CourseService {
             String id=UUID.randomUUID().toString();
             //正则判断是否为浮点数
             Pattern pattern = Pattern.compile("[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*");
-            String price=(String)m.get("课程定价");
-            String soldPrice=(String)m.get("课程售价");
+            String price=(String)m.get("课程定价（元）");
+            String soldPrice=(String)m.get("课程售价（元）");
             //如不是小数，在结尾加上.0
-            if(price.indexOf(".")==-1){
+            if(!price.contains(".")){
                 price=price+".0";
             }
-            if(soldPrice.indexOf(".")==-1){
+            if(!price.contains(".")){
                 soldPrice=soldPrice+".0";
             }
             if(!pattern.matcher(price).matches()||!pattern.matcher(soldPrice).matches()){

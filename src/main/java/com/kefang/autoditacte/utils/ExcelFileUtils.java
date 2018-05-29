@@ -51,12 +51,12 @@ public class ExcelFileUtils {
         }
         int rowNum = sheet.getLastRowNum();
         // 正文内容应该从第二行开始,第一行为表头的标题
-        for (int i = 1; i <= rowNum; i++) {
+        for (int i = 1; i < rowNum; i++) {
             dataMap= new HashMap<>();
             row = sheet.getRow(i);
             if(row!=null){
                 int j = 0;
-                while (j <=colNum) {
+                while (j <colNum) {
                     //这里把列循环到Map
                     if(row.getCell(j)!=null){
                         value = row.getCell(j).getRichStringCellValue().toString().trim();
